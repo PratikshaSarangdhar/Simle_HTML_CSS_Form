@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+  <title>Simple Form</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <form id="userForm" action="insert_data.php" method="POST" enctype="multipart/form-data">
+    <img id="photo-upload" src="placeholder.png" alt="Photo Upload">
+    <div class="form-details">
+
+      <label for="idNumber">ID Number:</label>
+      <input type="text" id="idNumber" name="idNumber" readonly><br><br>
+
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" placeholder="Enter your name" required><br>
+
+      <label for="photo">Upload Photo:</label>
+      <input type="file" id="photo" name="photo" accept="image/*" required><br>
+
+      <label for="rank">Rank:</label>
+      <select id="rank" name="rank" required>
+        <option value="first">First Rank</option>
+        <option value="second">Second Rank</option>
+        <option value="third">Third Rank</option>
+      </select><br><br>
+
+      <script>
+        function generateID() {
+          const idField = document.getElementById('idNumber');
+          const randomID = "#" + Math.floor(100000 + Math.random() * 900000);
+          idField.value = randomID;
+        }
+        window.onload = generateID;
+      </script>
+
+      <button type="submit" onclick="submitForm()">Submit</button>
+    </div>
+  
+  <div id="successMessage" style="display: none;">
+    <h2>Congratulations!<b>Your secured</h2><h3><span id="userRank"></span> Rank</h3></b>
+    <p>Your form has been submitted successfully!</p>
+  </div>
+
+  <script>
+    function submitForm() {
+      const rank = document.getElementById('rank').value;
+      if (rank) {
+        document.getElementById('userRank').textContent = rank;
+        document.getElementById('successMessage').style.display = 'block';
+      } else {
+        alert('Please select a rank before submitting!');
+      }
+    }
+  </script>
+
+  <script>
+    document.getElementById("photo").addEventListener("change", function (event) {
+      const photoupload = document.getElementById("photo-upload");
+      const file = event.target.files[0];
+      if (file) {
+        photoupload.src = URL.createObjectURL(file);
+      }
+    });
+
+    document.getElementById("userForm").addEventListener("submit", function (event) {
+      event.preventDefault(); 
+      const successMessage = document.getElementById("successMessage");
+      successMessage.style.display = "block";      
+    });
+  </script>
+
+  </form>
+</body>
+</html>
